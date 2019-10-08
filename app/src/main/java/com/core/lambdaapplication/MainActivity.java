@@ -1,5 +1,6 @@
 package com.core.lambdaapplication;
 
+import android.content.ComponentCallbacks2;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -12,7 +13,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ComponentCallbacks2 {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,5 +52,74 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Release memory when the UI becomes hidden or when system resources become low.
+     * @param level the memory-related event that was raised.
+     */
+    public void onTrimMemory(int level) {
+        System.out.println("TOT : Test OnTrim level : " + level);
+        // Determine which lifecycle or system event was raised.
+        switch (level) {
+
+            case ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN:
+                System.out.println("TOT : UI hidden");
+                /*
+                   Release any UI objects that currently hold memory.
+
+                   The user interface has moved to the background.
+                */
+
+                break;
+
+            case ComponentCallbacks2.TRIM_MEMORY_RUNNING_MODERATE:
+                System.out.println("TOT : Running Moderate");
+                break;
+            case ComponentCallbacks2.TRIM_MEMORY_RUNNING_LOW:
+                System.out.println("TOT : Running Low");
+                break;
+            case ComponentCallbacks2.TRIM_MEMORY_RUNNING_CRITICAL:
+                System.out.println("TOT : Running Critical");
+                /*
+                   Release any memory that your app doesn't need to run.
+
+                   The device is running low on memory while the app is running.
+                   The event raised indicates the severity of the memory-related event.
+                   If the event is TRIM_MEMORY_RUNNING_CRITICAL, then the system will
+                   begin killing background processes.
+                */
+
+                break;
+
+            case ComponentCallbacks2.TRIM_MEMORY_BACKGROUND:
+                System.out.println("TOT : Background");
+                break;
+            case ComponentCallbacks2.TRIM_MEMORY_MODERATE:
+                System.out.println("TOT : Moderate");
+                break;
+            case ComponentCallbacks2.TRIM_MEMORY_COMPLETE:
+                System.out.println("TOT : Complete");
+                /*
+                   Release as much memory as the process can.
+
+                   The app is on the LRU list and the system is running low on memory.
+                   The event raised indicates where the app sits within the LRU list.
+                   If the event is TRIM_MEMORY_COMPLETE, the process will be one of
+                   the first to be terminated.
+                */
+
+                break;
+
+            default:
+                System.out.println("TOT : Unknown");
+                /*
+                  Release any non-critical data structures.
+
+                  The app received an unrecognized memory level value
+                  from the system. Treat this as a generic low-memory message.
+                */
+                break;
+        }
     }
 }
