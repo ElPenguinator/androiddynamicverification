@@ -8,12 +8,22 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.collection.SimpleArrayMap;
 
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity implements ComponentCallbacks2 {
+
+    private SimpleArrayMap A, B, C;
+    private int capacityA, capacityB, capacityC;
+
+    private void fillArray(SimpleArrayMap toFill, int capacity) {
+        for (int i=0; i<capacity; i++) toFill.put(i, (int) Math.random() * 100);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +40,20 @@ public class MainActivity extends AppCompatActivity implements ComponentCallback
                         .setAction("Action", null).show();
             }
         });
+
+        capacityA = 1000000;
+        capacityB = 1000000;
+        capacityC = 1000000;
+        System.out.println(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
+        A = new SimpleArrayMap(capacityA);
+        fillArray(A, capacityA);
+        System.out.println(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
+        B = new SimpleArrayMap(capacityB);
+        fillArray(B, capacityB);
+        System.out.println(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
+        C = new SimpleArrayMap(capacityC);
+        fillArray(C, capacityC);
+        System.out.println(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
     }
 
     @Override
@@ -70,7 +94,10 @@ public class MainActivity extends AppCompatActivity implements ComponentCallback
 
                    The user interface has moved to the background.
                 */
-
+                System.out.println(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
+                A = null;
+                B = null;
+                C = null;
                 break;
 
             case ComponentCallbacks2.TRIM_MEMORY_RUNNING_MODERATE:
@@ -121,5 +148,6 @@ public class MainActivity extends AppCompatActivity implements ComponentCallback
                 */
                 break;
         }
+        System.out.println(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
     }
 }
