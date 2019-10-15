@@ -94,7 +94,13 @@ public class MainActivity extends AppCompatActivity implements ComponentCallback
 
                    The user interface has moved to the background.
                 */
-                System.out.println(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
+                System.out.println("TOT : " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()));
+                if (A != null)
+                    A.clear();
+                if (B != null)
+                    B.clear();
+                if (C != null)
+                    C.clear();
                 A = null;
                 B = null;
                 C = null;
@@ -148,6 +154,6 @@ public class MainActivity extends AppCompatActivity implements ComponentCallback
                 */
                 break;
         }
-        System.out.println(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
+        System.out.println("TOT : " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()));
     }
 }
